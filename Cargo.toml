@@ -13,4 +13,3 @@ authors = ["Jan Bronicki janbronicki@gmail.com"]
 
 
 [dev-dependencies]
-cargo-deny = "*"
