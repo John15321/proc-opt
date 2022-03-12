@@ -1,3 +1,6 @@
+[![Package Build](https://github.com/John15321/proc-opt/actions/workflows/package.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/package.yml)
+[![Tests](https://github.com/John15321/proc-opt/actions/workflows/rust.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/rust.yml)
+
 # Process Optimization
 
 Process optimization library.
