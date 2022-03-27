@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests {
+mo tests {
     #[test]
     fn it_works() {
         let result = 2 + 2;
