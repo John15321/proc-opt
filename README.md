@@ -1,4 +1,7 @@
-[![Package Build](https://github.com/John15321/proc-opt/actions/workflows/package.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/package.yml)
+[![Build](https://github.com/John15321/proc-opt/actions/workflows/build.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/build.yml)
+[![Code check](https://github.com/John15321/proc-opt/actions/workflows/rust.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/rust.yml)
+[![Docs](https://github.com/John15321/proc-opt/actions/workflows/docs.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/docs.yml)
+[![Package](https://github.com/John15321/proc-opt/actions/workflows/package.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/package.yml)
 [![Tests](https://github.com/John15321/proc-opt/actions/workflows/rust.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/rust.yml)
 
 # Process Optimization
