@@ -5,7 +5,11 @@ version = "0.0.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-authors = ["Jan Bronicki janbronicki@gmail.com", "Borys Staszczak staszczak.brys@gmail.com", "Patryk Marciniak patryknmarciniak@gmail.com"]
+authors = [
+  "Jan Bronicki janbronicki@gmail.com",
+  "Borys Staszczak staszczak.brys@gmail.com",
+  "Patryk Marciniak patryknmarciniak@gmail.com",
+]
 
 [dependencies]
 
