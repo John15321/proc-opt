@@ -3,13 +3,13 @@ name: Docs
 on: [push]
 
 env:
-  CARGO_TERM_COLOR: always
+    CARGO_TERM_COLOR: always
 
 jobs:
-  docs:
-    name: 📄Build docs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: 📄Build docs
-        run: cargo doc --verbose
+    docs:
+        name: 📄Build docs
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: 📄Build docs
+              run: cargo doc --verbose
