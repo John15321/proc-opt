@@ -4,7 +4,7 @@
 [![Package](https://github.com/John15321/proc-opt/actions/workflows/package.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/package.yml)
 [![Tests](https://github.com/John15321/proc-opt/actions/workflows/tests.yml/badge.svg)](https://github.com/John15321/proc-opt/actions/workflows/tests.yml)
 
-# Process Optimization
+# Heuristic Optimization
 
 Process optimization library.
 
