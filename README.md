@@ -9,11 +9,20 @@
 Process optimization library.
 
 ## Features
+
 ---
 
-* TODO
+Algorithms (TODO):
+
+* Carlier
+* Schrage
+* Genetic Algorithm
+* Simulated Annealing
+* Particle Swarm
+* Tabu Search
 
 ## Development and branching strategy
+
 ---
 
 Specfic branch names:
@@ -25,6 +34,7 @@ Specfic branch names:
 ![Branching strategy: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](img/feature_branches.svg)
 
 ## Credits
+
 ---
 
 This package was created with Cookiecutter, and the
