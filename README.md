@@ -29,7 +29,7 @@ Specfic branch names:
 
 * Main: "`main`"
 * Develop: "`branch_develop`"
-* Feature: "`ISSUENUMBER_short_lowercase_description`" e.g. "`6_make_better_readme`"
+* Feature: "`ISSUENUMBER-short-lowercase-description`" e.g. "`6-make-better-readme`"
 
 ![Branching strategy: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](img/feature_branches.svg)
 
