@@ -1,3 +1,6 @@
+use std::cmp::Ordering;
+
+use super::jobs::{Job, JobSequence};
 
 pub fn schrage(jobs: &Vec<Job>) -> JobSequence {
     let shortest_delivery_jobs = jobs.clone().sort_by(|a, b| {
@@ -10,9 +13,8 @@ pub fn schrage(jobs: &Vec<Job>) -> JobSequence {
         }
     });
     println!("min delivery_time: {:?}", shortest_delivery_jobs);
-    JobSequence {
+
+    return JobSequence {
         job_sequence: jobs.clone(),
     };
-
-    return job_sequence;
 }
