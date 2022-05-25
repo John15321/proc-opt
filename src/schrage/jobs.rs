@@ -9,6 +9,7 @@ pub struct Job {
 }
 
 impl Job {
+    #[allow(dead_code)]
     pub fn new(delivery_time: u32, processing_time: u32, cooldown_time: u32) -> Job {
         Job {
             delivery_time,
@@ -159,6 +160,51 @@ impl PartTimeSchrageJobTable {
             sums[i] = job.cooldown_time + end_times[i];
         }
         *sums.iter().max().unwrap()
+    }
+
+    #[allow(dead_code)]
+    pub fn get_by_delivery_time(&self) -> Vec<Job> {
+        let mut by_delivery_time = self.job_sequence.clone();
+        by_delivery_time.sort_by(|a, b| {
+            if a.delivery_time < b.delivery_time {
+                Ordering::Less
+            } else if a.delivery_time == b.delivery_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_delivery_time
+    }
+
+    #[allow(dead_code)]
+    pub fn get_by_processing_time(&self) -> Vec<Job> {
+        let mut by_processing_time = self.job_sequence.clone();
+        by_processing_time.sort_by(|a, b| {
+            if a.processing_time < b.processing_time {
+                Ordering::Less
+            } else if a.processing_time == b.processing_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_processing_time
+    }
+
+    #[allow(dead_code)]
+    pub fn get_by_cooldown_time(&self) -> Vec<Job> {
+        let mut by_cooldown_time = self.job_sequence.clone();
+        by_cooldown_time.sort_by(|a, b| {
+            if a.cooldown_time < b.cooldown_time {
+                Ordering::Less
+            } else if a.cooldown_time == b.cooldown_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_cooldown_time
     }
 }
 
