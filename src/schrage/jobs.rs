@@ -1,4 +1,4 @@
-use std::{fmt, vec};
+use std::{cmp::Ordering, fmt, vec};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Job {
@@ -8,6 +8,7 @@ pub struct Job {
 }
 
 impl Job {
+    #[allow(dead_code)]
     pub fn new(delivery_time: u32, processing_time: u32, cooldown_time: u32) -> Job {
         Job {
             delivery_time,
@@ -16,6 +17,7 @@ impl Job {
         }
     }
 
+    #[allow(dead_code)]
     pub fn total_time(&self) -> u32 {
         self.delivery_time + self.processing_time + self.cooldown_time
     }
@@ -28,6 +30,14 @@ impl fmt::Display for Job {
             "({}, {}, {})",
             self.delivery_time, self.processing_time, self.cooldown_time
         )
+    }
+}
+
+impl PartialEq for Job {
+    fn eq(&self, other: &Self) -> bool {
+        self.delivery_time == other.delivery_time
+            && self.processing_time == other.processing_time
+            && self.cooldown_time == other.cooldown_time
     }
 }
 
@@ -46,13 +56,13 @@ impl fmt::Display for JobSequence {
 }
 
 impl JobSequence {
+    #[allow(dead_code)]
     pub fn c_max(&self) -> u32 {
         let mut end_times = vec![0; self.job_sequence.len()];
         let mut s = 0;
         let mut sums = vec![0; self.job_sequence.len()];
 
         for (i, job) in self.job_sequence.iter().enumerate() {
-            println!("Number: {}, Job: {}", i, job);
             if job.delivery_time > s {
                 s = job.delivery_time + job.processing_time;
             } else {
@@ -66,7 +76,67 @@ impl JobSequence {
         }
         *sums.iter().max().unwrap()
     }
+
+    #[allow(dead_code)]
+    pub fn get_by_delivery_time(&self) -> Vec<Job> {
+        let mut by_delivery_time = self.job_sequence.clone();
+        by_delivery_time.sort_by(|a, b| {
+            if a.delivery_time < b.delivery_time {
+                Ordering::Less
+            } else if a.delivery_time == b.delivery_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_delivery_time
+    }
+
+    #[allow(dead_code)]
+    pub fn get_by_processing_time(&self) -> Vec<Job> {
+        let mut by_processing_time = self.job_sequence.clone();
+        by_processing_time.sort_by(|a, b| {
+            if a.processing_time < b.processing_time {
+                Ordering::Less
+            } else if a.processing_time == b.processing_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_processing_time
+    }
+
+    #[allow(dead_code)]
+    pub fn get_by_cooldown_time(&self) -> Vec<Job> {
+        let mut by_cooldown_time = self.job_sequence.clone();
+        by_cooldown_time.sort_by(|a, b| {
+            if a.cooldown_time < b.cooldown_time {
+                Ordering::Less
+            } else if a.cooldown_time == b.cooldown_time {
+                Ordering::Equal
+            } else {
+                Ordering::Greater
+            }
+        });
+        by_cooldown_time
+    }
 }
+
+impl PartialEq for JobSequence {
+    fn eq(&self, other: &Self) -> bool {
+        if self.job_sequence.len() != other.job_sequence.len() {
+            return false;
+        }
+        for (i, j) in self.job_sequence.iter().enumerate() {
+            if j != &other.job_sequence[i] {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::schrage::jobs;
@@ -87,7 +157,6 @@ mod tests {
             ],
         };
         let result = js.c_max();
-        println!("RESULT: {}", result);
         assert_eq!(result, 58);
     }
 
@@ -105,7 +174,6 @@ mod tests {
             ],
         };
         let result = js.c_max();
-        println!("RESULT: {}", result);
         assert_eq!(result, 53);
     }
 
@@ -123,7 +191,6 @@ mod tests {
             ],
         };
         let result = js.c_max();
-        println!("RESULT: {}", result);
         assert_eq!(result, 50);
     }
 }
