@@ -137,6 +137,11 @@ impl PartialEq for JobSequence {
     }
 }
 
+// #[derive(Debug, Clone)]
+// pub struct JobTimeTable {
+
+// }
+
 #[cfg(test)]
 mod tests {
     use crate::schrage::jobs;
@@ -192,5 +197,55 @@ mod tests {
         };
         let result = js.c_max();
         assert_eq!(result, 50);
+    }
+
+    #[test]
+    fn test_c_max_ex4() {
+        let js = JobSequence {
+            job_sequence: vec![
+                jobs::Job::new(2, 20, 88),   // 8
+                jobs::Job::new(5, 14, 125),  // 4
+                jobs::Job::new(8, 16, 114),  // 5
+                jobs::Job::new(9, 28, 94),   // 10
+                jobs::Job::new(70, 4, 93),   // 2
+                jobs::Job::new(71, 7, 71),   // 6
+                jobs::Job::new(52, 1, 56),   // 1
+                jobs::Job::new(52, 20, 56),  // 9
+                jobs::Job::new(112, 22, 79), // 3
+                jobs::Job::new(90, 2, 13),   // 7
+            ],
+        };
+        let result = js.c_max();
+        assert_eq!(result, 213);
+    }
+
+    #[test]
+    fn test_c_max_ex5() {
+        let js = JobSequence {
+            job_sequence: vec![
+                jobs::Job::new(15, 86, 700),  // 5
+                jobs::Job::new(51, 52, 403),  // 7
+                jobs::Job::new(144, 73, 536), // 6
+                jobs::Job::new(183, 17, 641), // 9
+                jobs::Job::new(226, 5, 629),  // 15
+                jobs::Job::new(162, 80, 575), // 16
+                jobs::Job::new(103, 68, 470), // 2
+                jobs::Job::new(394, 34, 400), // 4
+                jobs::Job::new(35, 37, 386),  // 13
+                jobs::Job::new(39, 38, 340),  // 3
+                jobs::Job::new(162, 52, 241), // 1
+                jobs::Job::new(556, 23, 79),  // 18
+                jobs::Job::new(567, 71, 618), // 14
+                jobs::Job::new(588, 45, 632), // 17
+                jobs::Job::new(598, 45, 200), // 20
+                jobs::Job::new(728, 18, 640), // 10
+                jobs::Job::new(715, 8, 93),   // 19
+                jobs::Job::new(667, 80, 92),  // 11
+                jobs::Job::new(57, 21, 76),   // 12
+                jobs::Job::new(233, 68, 23),  // 8
+            ],
+        };
+        let result = js.c_max();
+        assert_eq!(result, 1399);
     }
 }
