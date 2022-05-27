@@ -1,23 +1,22 @@
 // use crate::schrage::jobs::Job;
 use crate::schrage::jobs::Job;
-use crate::schrage::jobs::JobSequence;
+use crate::schrage::jobs::JobList;
 use std::vec;
 pub mod jobs;
 // use super::jobs::JobSequence;
 
-
 #[allow(dead_code)]
-pub fn schrage(jobs: &jobs::JobSequence) -> JobSequence {
+pub fn schrage(jobs: &jobs::JobList) -> JobList {
     // N
-    let mut shortest_delivery_jobs = JobSequence {
-        job_sequence: jobs.get_by_delivery_time(),
+    let mut shortest_delivery_jobs = JobList {
+        job_sequence: jobs.sorted_by_delivery_time(),
     };
     // G
-    let mut ready_to_run = JobSequence {
+    let mut ready_to_run = JobList {
         job_sequence: Vec::new(),
     };
     let mut t: u32 = 0;
-    let mut pi: JobSequence = JobSequence {
+    let mut pi: JobList = JobList {
         job_sequence: Vec::new(),
     };
 
@@ -31,17 +30,17 @@ pub fn schrage(jobs: &jobs::JobSequence) -> JobSequence {
             shortest_delivery_jobs.job_sequence.remove(0);
         }
         if !ready_to_run.job_sequence.is_empty() {
-            let vec_by_processing_time = JobSequence {
-                job_sequence: ready_to_run.get_by_processing_time(),
+            let vec_by_processing_time = JobList {
+                job_sequence: ready_to_run.sorted_by_processing_time(),
             };
-            let reversed: JobSequence = JobSequence {
+            let reversed: JobList = JobList {
                 job_sequence: vec_by_processing_time
                     .job_sequence
                     .into_iter()
                     .rev()
                     .collect(),
             };
-            let cooldown_times: Vec<Job> = reversed.get_by_cooldown_time();
+            let cooldown_times: Vec<Job> = reversed.sorted_by_cooldown_time();
 
             let max_cooldown_time = cooldown_times.last().unwrap();
             let position = ready_to_run
@@ -61,13 +60,13 @@ pub fn schrage(jobs: &jobs::JobSequence) -> JobSequence {
 }
 
 #[allow(dead_code)]
-pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
+pub fn schrage_with_division(jobs: &JobList) -> JobList {
     // N
-    let mut shortest_delivery_jobs = JobSequence {
-        job_sequence: jobs.get_by_delivery_time(),
+    let mut shortest_delivery_jobs = JobList {
+        job_sequence: jobs.sorted_by_delivery_time(),
     };
     // G
-    let mut ready_to_run = JobSequence {
+    let mut ready_to_run = JobList {
         job_sequence: Vec::new(),
     };
     let mut current_job: Job = Job {
@@ -76,7 +75,7 @@ pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
         cooldown_time: 0,
     };
     let mut t: u32 = 0;
-    let mut pi: JobSequence = JobSequence {
+    let mut pi: JobList = JobList {
         job_sequence: Vec::new(),
     };
 
@@ -94,16 +93,14 @@ pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
                 t = next_job.delivery_time;
 
                 if current_job.processing_time > 0 {
-                    ready_to_run
-                        .job_sequence
-                        .append(&mut vec![current_job]);
-                    ready_to_run.job_sequence = ready_to_run.get_by_delivery_time().clone();
+                    ready_to_run.job_sequence.append(&mut vec![current_job]);
+                    ready_to_run.job_sequence = ready_to_run.sorted_by_delivery_time().clone();
                 }
             }
         }
 
         if !ready_to_run.job_sequence.is_empty() {
-            let cooldown_times = ready_to_run.get_by_cooldown_time();
+            let cooldown_times = ready_to_run.sorted_by_cooldown_time();
             let max_cooldown_time = cooldown_times.last().unwrap();
             let position = ready_to_run
                 .job_sequence
@@ -130,7 +127,7 @@ mod tests {
 
     #[test]
     fn test_schrage_ex1() {
-        let expected_result = JobSequence {
+        let expected_result = JobList {
             job_sequence: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(10, 5, 7),  // 1
@@ -141,7 +138,7 @@ mod tests {
                 jobs::Job::new(30, 2, 0),  // 7
             ],
         };
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(10, 5, 7),  // 1
                 jobs::Job::new(13, 6, 26), // 2
@@ -159,7 +156,7 @@ mod tests {
 
     #[test]
     fn test_schrage_ex2() {
-        let expected_result = JobSequence {
+        let expected_result = JobList {
             job_sequence: vec![
                 jobs::Job::new(1, 5, 9), // 1
                 jobs::Job::new(3, 6, 8), // 5
@@ -169,7 +166,7 @@ mod tests {
                 jobs::Job::new(4, 7, 1), // 6
             ],
         };
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(1, 5, 9), // 1
                 jobs::Job::new(4, 5, 4), // 2
@@ -186,7 +183,7 @@ mod tests {
 
     #[test]
     fn test_schrage_ex3() {
-        let expected_result = JobSequence {
+        let expected_result = JobList {
             job_sequence: vec![
                 jobs::Job::new(15, 86, 700),  // 5
                 jobs::Job::new(51, 52, 403),  // 7
@@ -210,7 +207,7 @@ mod tests {
                 jobs::Job::new(233, 68, 23),  // 8
             ],
         };
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(162, 52, 241), // 1
                 jobs::Job::new(103, 68, 470), // 2
@@ -241,7 +238,7 @@ mod tests {
 
     #[test]
     fn test_schrage_ex4() {
-        let expected_result = JobSequence {
+        let expected_result = JobList {
             job_sequence: vec![
                 jobs::Job::new(2, 20, 88),   // 8
                 jobs::Job::new(5, 14, 125),  // 4
@@ -255,7 +252,7 @@ mod tests {
                 jobs::Job::new(90, 2, 13),   // 7
             ],
         };
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(52, 1, 56),   // 1
                 jobs::Job::new(70, 4, 93),   // 2
@@ -276,7 +273,7 @@ mod tests {
 
     #[test]
     fn test_sorty() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(10, 5, 7),  // 1
@@ -290,8 +287,8 @@ mod tests {
         println!("Before sort: {}", js);
         println!(
             "After sort: {}",
-            JobSequence {
-                job_sequence: js.get_by_cooldown_time()
+            JobList {
+                job_sequence: js.sorted_by_cooldown_time()
             }
         );
         assert_eq!(true, true);

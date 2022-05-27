@@ -1,6 +1,5 @@
 // pub mod jobs;
-use std::{cmp::Ordering, fmt, vec};
-
+use std::{fmt, vec};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Job {
@@ -44,11 +43,11 @@ impl PartialEq for Job {
 }
 
 #[derive(Debug, Clone)]
-pub struct JobSequence {
+pub struct JobList {
     pub job_sequence: Vec<Job>,
 }
 
-impl fmt::Display for JobSequence {
+impl fmt::Display for JobList {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for i in &self.job_sequence {
             writeln!(f, "{}", i)?;
@@ -57,7 +56,7 @@ impl fmt::Display for JobSequence {
     }
 }
 
-impl JobSequence {
+impl JobList {
     #[allow(dead_code)]
     pub fn c_max(&self) -> u32 {
         let mut end_times = vec![0; self.job_sequence.len()];
@@ -80,52 +79,28 @@ impl JobSequence {
     }
 
     #[allow(dead_code)]
-    pub fn get_by_delivery_time(&self) -> Vec<Job> {
+    pub fn sorted_by_delivery_time(&self) -> Vec<Job> {
         let mut by_delivery_time = self.job_sequence.clone();
-        by_delivery_time.sort_by(|a, b| {
-            if a.delivery_time < b.delivery_time {
-                Ordering::Less
-            } else if a.delivery_time == b.delivery_time {
-                Ordering::Equal
-            } else {
-                Ordering::Greater
-            }
-        });
+        by_delivery_time.sort_by_key(|a| a.delivery_time);
         by_delivery_time
     }
 
     #[allow(dead_code)]
-    pub fn get_by_processing_time(&self) -> Vec<Job> {
+    pub fn sorted_by_processing_time(&self) -> Vec<Job> {
         let mut by_processing_time = self.job_sequence.clone();
-        by_processing_time.sort_by(|a, b| {
-            if a.processing_time < b.processing_time {
-                Ordering::Less
-            } else if a.processing_time == b.processing_time {
-                Ordering::Equal
-            } else {
-                Ordering::Greater
-            }
-        });
+        by_processing_time.sort_by_key(|a| a.processing_time);
         by_processing_time
     }
 
     #[allow(dead_code)]
-    pub fn get_by_cooldown_time(&self) -> Vec<Job> {
+    pub fn sorted_by_cooldown_time(&self) -> Vec<Job> {
         let mut by_cooldown_time = self.job_sequence.clone();
-        by_cooldown_time.sort_by(|a, b| {
-            if a.cooldown_time < b.cooldown_time {
-                Ordering::Less
-            } else if a.cooldown_time == b.cooldown_time {
-                Ordering::Equal
-            } else {
-                Ordering::Greater
-            }
-        });
+        by_cooldown_time.sort_by_key(|a| a.cooldown_time);
         by_cooldown_time
     }
 }
 
-impl PartialEq for JobSequence {
+impl PartialEq for JobList {
     fn eq(&self, other: &Self) -> bool {
         if self.job_sequence.len() != other.job_sequence.len() {
             return false;
@@ -152,7 +127,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex1() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(10, 5, 7),  // 1
                 jobs::Job::new(13, 6, 26), // 2
@@ -169,7 +144,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex2() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(10, 5, 7),  // 1
@@ -186,7 +161,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex3() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(11, 7, 24), // 3
@@ -203,7 +178,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex4() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(2, 20, 88),   // 8
                 jobs::Job::new(5, 14, 125),  // 4
@@ -223,7 +198,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex5() {
-        let js = JobSequence {
+        let js = JobList {
             job_sequence: vec![
                 jobs::Job::new(15, 86, 700),  // 5
                 jobs::Job::new(51, 52, 403),  // 7
