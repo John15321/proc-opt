@@ -114,10 +114,6 @@ impl PartialEq for JobList {
     }
 }
 
-// #[derive(Debug, Clone)]
-// pub struct JobTimeTable {
-
-// }
 
 #[cfg(test)]
 mod tests {
