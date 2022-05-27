@@ -1,9 +1,7 @@
-// use crate::schrage::jobs::Job;
 use crate::schrage::jobs::Job;
 use crate::schrage::jobs::JobList;
 use std::vec;
 pub mod jobs;
-// use super::jobs::JobSequence;
 
 #[allow(dead_code)]
 pub fn schrage(jobs: &jobs::JobList) -> JobList {

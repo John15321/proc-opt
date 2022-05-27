@@ -114,7 +114,6 @@ impl PartialEq for JobList {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use crate::schrage::jobs;
