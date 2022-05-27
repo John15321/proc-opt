@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::{fmt, vec};
 
+
 #[derive(Copy, Clone, Debug)]
 pub struct Job {
     pub delivery_time: u32,   // r
