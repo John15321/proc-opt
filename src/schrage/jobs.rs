@@ -68,7 +68,7 @@ impl JobSequence {
             if job.delivery_time > s {
                 s = job.delivery_time + job.processing_time;
             } else {
-                s = s + job.processing_time;
+                s += job.processing_time;
             }
             end_times[i] = s;
         }
@@ -135,7 +135,7 @@ impl PartialEq for JobSequence {
                 return false;
             }
         }
-        return true;
+        true
     }
 }
 

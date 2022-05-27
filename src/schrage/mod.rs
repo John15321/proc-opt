@@ -21,16 +21,16 @@ pub fn schrage(jobs: &jobs::JobSequence) -> JobSequence {
         job_sequence: Vec::new(),
     };
 
-    while shortest_delivery_jobs.job_sequence.len() != 0 || ready_to_run.job_sequence.len() != 0 {
-        while shortest_delivery_jobs.job_sequence.len() != 0
+    while !shortest_delivery_jobs.job_sequence.is_empty() || !ready_to_run.job_sequence.is_empty() {
+        while !shortest_delivery_jobs.job_sequence.is_empty()
             && shortest_delivery_jobs.job_sequence[0].delivery_time <= t
         {
             ready_to_run
                 .job_sequence
-                .append(&mut vec![shortest_delivery_jobs.job_sequence[0].clone()]);
+                .append(&mut vec![shortest_delivery_jobs.job_sequence[0]]);
             shortest_delivery_jobs.job_sequence.remove(0);
         }
-        if ready_to_run.job_sequence.len() != 0 {
+        if !ready_to_run.job_sequence.is_empty() {
             let vec_by_processing_time = JobSequence {
                 job_sequence: ready_to_run.get_by_processing_time(),
             };
@@ -51,13 +51,13 @@ pub fn schrage(jobs: &jobs::JobSequence) -> JobSequence {
                 .unwrap();
             ready_to_run.job_sequence.remove(position);
             // Add a job to the final sequence
-            pi.job_sequence.push(max_cooldown_time.clone());
-            t = t + max_cooldown_time.processing_time;
+            pi.job_sequence.push(*max_cooldown_time);
+            t += max_cooldown_time.processing_time;
         } else {
             t = shortest_delivery_jobs.job_sequence[0].delivery_time;
         }
     }
-    return pi;
+    pi
 }
 
 #[allow(dead_code)]
@@ -80,13 +80,13 @@ pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
         job_sequence: Vec::new(),
     };
 
-    while shortest_delivery_jobs.job_sequence.len() != 0 || ready_to_run.job_sequence.len() != 0 {
-        while shortest_delivery_jobs.job_sequence.len() != 0
+    while !shortest_delivery_jobs.job_sequence.is_empty() || !ready_to_run.job_sequence.is_empty() {
+        while !shortest_delivery_jobs.job_sequence.is_empty()
             && shortest_delivery_jobs.job_sequence[0].delivery_time <= t
         {
             ready_to_run
                 .job_sequence
-                .append(&mut vec![shortest_delivery_jobs.job_sequence[0].clone()]);
+                .append(&mut vec![shortest_delivery_jobs.job_sequence[0]]);
             let next_job = shortest_delivery_jobs.job_sequence.remove(0);
 
             if next_job.cooldown_time > current_job.cooldown_time {
@@ -96,13 +96,13 @@ pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
                 if current_job.processing_time > 0 {
                     ready_to_run
                         .job_sequence
-                        .append(&mut vec![current_job.clone()]);
+                        .append(&mut vec![current_job]);
                     ready_to_run.job_sequence = ready_to_run.get_by_delivery_time().clone();
                 }
             }
         }
 
-        if ready_to_run.job_sequence.len() != 0 {
+        if !ready_to_run.job_sequence.is_empty() {
             let cooldown_times = ready_to_run.get_by_cooldown_time();
             let max_cooldown_time = cooldown_times.last().unwrap();
             let position = ready_to_run
@@ -113,13 +113,13 @@ pub fn schrage_with_division(jobs: &JobSequence) -> JobSequence {
             ready_to_run.job_sequence.remove(position);
 
             // Add a job to the final sequence
-            pi.job_sequence.push(max_cooldown_time.clone());
-            t = t + max_cooldown_time.processing_time;
+            pi.job_sequence.push(*max_cooldown_time);
+            t += max_cooldown_time.processing_time;
         } else {
             t = shortest_delivery_jobs.job_sequence[0].delivery_time;
         }
     }
-    return pi;
+    pi
 }
 
 #[cfg(test)]
