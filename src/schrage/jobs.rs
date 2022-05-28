@@ -165,21 +165,21 @@ impl PartTimeSchrageJobTable {
 
     #[allow(dead_code)]
     pub fn sorted_by_delivery_time(&self) -> Vec<Job> {
-        let mut by_delivery_time = self.job_sequence.clone();
+        let mut by_delivery_time = self.jobs.clone();
         by_delivery_time.sort_by_key(|a| a.delivery_time);
         by_delivery_time
     }
 
     #[allow(dead_code)]
     pub fn sorted_by_processing_time(&self) -> Vec<Job> {
-        let mut by_processing_time = self.job_sequence.clone();
+        let mut by_processing_time = self.jobs.clone();
         by_processing_time.sort_by_key(|a| a.processing_time);
         by_processing_time
     }
 
     #[allow(dead_code)]
     pub fn sorted_by_cooldown_time(&self) -> Vec<Job> {
-        let mut by_cooldown_time = self.job_sequence.clone();
+        let mut by_cooldown_time = self.jobs.clone();
         by_cooldown_time.sort_by_key(|a| a.cooldown_time);
         by_cooldown_time
     }
