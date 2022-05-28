@@ -44,12 +44,12 @@ impl PartialEq for Job {
 
 #[derive(Debug, Clone)]
 pub struct JobList {
-    pub job_sequence: Vec<Job>,
+    pub jobs: Vec<Job>,
 }
 
 impl fmt::Display for JobList {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for i in &self.job_sequence {
+        for i in &self.jobs {
             writeln!(f, "{}", i)?;
         }
         Ok(())
@@ -59,11 +59,11 @@ impl fmt::Display for JobList {
 impl JobList {
     #[allow(dead_code)]
     pub fn c_max(&self) -> u32 {
-        let mut end_times = vec![0; self.job_sequence.len()];
+        let mut end_times = vec![0; self.jobs.len()];
         let mut s = 0;
-        let mut sums = vec![0; self.job_sequence.len()];
+        let mut sums = vec![0; self.jobs.len()];
 
-        for (i, job) in self.job_sequence.iter().enumerate() {
+        for (i, job) in self.jobs.iter().enumerate() {
             if job.delivery_time > s {
                 s = job.delivery_time + job.processing_time;
             } else {
@@ -72,7 +72,7 @@ impl JobList {
             end_times[i] = s;
         }
 
-        for (i, job) in self.job_sequence.iter().enumerate() {
+        for (i, job) in self.jobs.iter().enumerate() {
             sums[i] = job.cooldown_time + end_times[i];
         }
         *sums.iter().max().unwrap()
@@ -80,21 +80,21 @@ impl JobList {
 
     #[allow(dead_code)]
     pub fn sorted_by_delivery_time(&self) -> Vec<Job> {
-        let mut by_delivery_time = self.job_sequence.clone();
+        let mut by_delivery_time = self.jobs.clone();
         by_delivery_time.sort_by_key(|a| a.delivery_time);
         by_delivery_time
     }
 
     #[allow(dead_code)]
     pub fn sorted_by_processing_time(&self) -> Vec<Job> {
-        let mut by_processing_time = self.job_sequence.clone();
+        let mut by_processing_time = self.jobs.clone();
         by_processing_time.sort_by_key(|a| a.processing_time);
         by_processing_time
     }
 
     #[allow(dead_code)]
     pub fn sorted_by_cooldown_time(&self) -> Vec<Job> {
-        let mut by_cooldown_time = self.job_sequence.clone();
+        let mut by_cooldown_time = self.jobs.clone();
         by_cooldown_time.sort_by_key(|a| a.cooldown_time);
         by_cooldown_time
     }
@@ -102,11 +102,11 @@ impl JobList {
 
 impl PartialEq for JobList {
     fn eq(&self, other: &Self) -> bool {
-        if self.job_sequence.len() != other.job_sequence.len() {
+        if self.jobs.len() != other.jobs.len() {
             return false;
         }
-        for (i, j) in self.job_sequence.iter().enumerate() {
-            if j != &other.job_sequence[i] {
+        for (i, j) in self.jobs.iter().enumerate() {
+            if j != &other.jobs[i] {
                 return false;
             }
         }
@@ -123,7 +123,7 @@ mod tests {
     #[test]
     fn test_c_max_ex1() {
         let js = JobList {
-            job_sequence: vec![
+            jobs: vec![
                 jobs::Job::new(10, 5, 7),  // 1
                 jobs::Job::new(13, 6, 26), // 2
                 jobs::Job::new(11, 7, 24), // 3
@@ -140,7 +140,7 @@ mod tests {
     #[test]
     fn test_c_max_ex2() {
         let js = JobList {
-            job_sequence: vec![
+            jobs: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(10, 5, 7),  // 1
                 jobs::Job::new(13, 6, 26), // 2
@@ -157,7 +157,7 @@ mod tests {
     #[test]
     fn test_c_max_ex3() {
         let js = JobList {
-            job_sequence: vec![
+            jobs: vec![
                 jobs::Job::new(0, 6, 17),  // 6
                 jobs::Job::new(11, 7, 24), // 3
                 jobs::Job::new(13, 6, 26), // 2
@@ -174,7 +174,7 @@ mod tests {
     #[test]
     fn test_c_max_ex4() {
         let js = JobList {
-            job_sequence: vec![
+            jobs: vec![
                 jobs::Job::new(2, 20, 88),   // 8
                 jobs::Job::new(5, 14, 125),  // 4
                 jobs::Job::new(8, 16, 114),  // 5
@@ -194,7 +194,7 @@ mod tests {
     #[test]
     fn test_c_max_ex5() {
         let js = JobList {
-            job_sequence: vec![
+            jobs: vec![
                 jobs::Job::new(15, 86, 700),  // 5
                 jobs::Job::new(51, 52, 403),  // 7
                 jobs::Job::new(144, 73, 536), // 6
