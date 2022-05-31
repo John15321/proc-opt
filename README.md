@@ -15,8 +15,8 @@ Process optimization library.
 
 Algorithms (TODO):
 
-* Carlier
 * Schrage
+* Carlier
 * Genetic Algorithm
 * Simulated Annealing
 * Particle Swarm
@@ -32,13 +32,14 @@ Specfic branch names:
 * Develop: "`branch_develop`"
 * Feature: "`ISSUENUMBER_short_lowercase_description`" e.g. "`6_make_better_readme`"
 
-![Branching strategy: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](img/feature_branches.svg)
+Branching strategy:
 
+<div style="text-align: center;"><img src="https://wac-cdn.atlassian.com/dam/jcr:34c86360-8dea-4be4-92f7-6597d4d5bfae/02%20Feature%20branches.svg?cdnVersion=365"></div>
 
 ## Useful tips
 
 * For running test in a more visually appealing way use the
-    `cargo-nextest` crate.
+  `cargo-nextest` crate.
 * For drawing the module tree of your crate use `cargo-modules` crate
 * For manipulating the Cargo.toml in cmd use `cargo-edit` crate
 * For cheking if your deps have security vulnerabilities use `cargo-audit` crate

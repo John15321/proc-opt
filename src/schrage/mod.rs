@@ -3,7 +3,47 @@ use std::vec;
 
 pub mod jobs;
 
-#[allow(dead_code)]
+///
+///
+/// # Arguments
+///
+/// * `jobs`:
+///
+/// returns: JobList
+///
+/// # Examples
+///
+/// ```rust
+/// use proc_opt::schrage::jobs::{Job, JobList};
+/// use proc_opt::schrage::schrage;
+/// let initial_list = JobList {
+///     jobs: vec![
+///         Job::new(10, 5, 7),  // 1
+///         Job::new(13, 6, 26), // 2
+///         Job::new(11, 7, 24), // 3
+///         Job::new(20, 4, 21), // 4
+///         Job::new(30, 3, 8),  // 5
+///         Job::new(0, 6, 17),  // 6
+///         Job::new(30, 2, 0),  // 7
+///     ],
+/// };
+/// let result = schrage(&initial_list);
+/// let expected_result = JobList {
+///     jobs: vec![
+///         Job::new(0, 6, 17),  // 6
+///         Job::new(10, 5, 7),  // 1
+///         Job::new(13, 6, 26), // 2
+///         Job::new(11, 7, 24), // 3
+///         Job::new(20, 4, 21), // 4
+///         Job::new(30, 3, 8),  // 5
+///         Job::new(30, 2, 0),  // 7
+///     ],
+/// };
+/// assert_eq!(initial_list.c_max(), 58); // Initial execution time is 58
+/// assert_eq!(result.c_max(), 53); // After meta-heuristic optimization its 53
+/// assert_eq!(result, expected_result);
+///
+/// ```
 pub fn schrage(jobs: &JobList) -> JobList {
     // N
     // A list of jobs to be completed

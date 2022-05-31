@@ -4,6 +4,8 @@ name = "proc-opt"
 version = "0.0.1"
 license = "MIT"
 description = "WIP: Process optimization library."
+keywords = ["schrage", "carlier", "rpq", "optimization"]
+categories = ["algorithms"]
 readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
