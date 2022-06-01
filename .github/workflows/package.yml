@@ -40,12 +40,12 @@ jobs:
             - name: 📢Publish dry run
               run: cargo publish --dry-run --verbose
 
-    dummy_publish:
-        name: 📦⬆️📢Publish dummy
-        # needs: [license, package, cargo_check, publish_dry_run]
-        needs: [package, cargo_check, publish_dry_run]
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: 📦⬆️📢Publish dry run
-              run: cargo publish --dry-run --verbose
+    # dummy_publish:
+    #     name: 📦⬆️📢Publish dummy
+    #     # needs: [license, package, cargo_check, publish_dry_run]
+    #     needs: [package, cargo_check, publish_dry_run]
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v2
+    #         - name: 📦⬆️📢Publish dry run
+    #           run: cargo publish --dry-run --verbose
