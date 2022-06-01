@@ -1,24 +1,20 @@
 name: Package
 
-on:
-    push:
-        branches: [main, master]
-    pull_request:
-        branches: [main, master]
+on: [push]
 
 env:
     CARGO_TERM_COLOR: always
 
 jobs:
-    license:
-        name: 🏫License check
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: 🏫Check license
-              run: |
-                  cargo install cargo-deny
-                  cargo deny check
+    # license:
+    #     name: 🏫License check
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v2
+    #         - name: 🏫Check license
+    #           run: |
+    #               cargo install cargo-deny
+    #               cargo deny check
 
     package:
         name: 🔨Package
@@ -46,7 +42,8 @@ jobs:
 
     dummy_publish:
         name: 📦⬆️📢Publish dummy
-        needs: [license, package, cargo_check, publish_dry_run]
+        # needs: [license, package, cargo_check, publish_dry_run]
+        needs: [package, cargo_check, publish_dry_run]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
