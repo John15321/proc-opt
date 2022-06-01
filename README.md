@@ -17,10 +17,8 @@ Algorithms (TODO):
 
 * Schrage
 * Carlier
-* Genetic Algorithm
 * Simulated Annealing
-* Particle Swarm
-* Tabu Search
+
 
 ## Development and branching strategy
 

@@ -90,7 +90,7 @@ pub fn schrage(jobs: &JobList) -> JobList {
             pi.jobs.push(*max_cooldown_time);
             t += max_cooldown_time.processing_time;
         } else {
-            // If there arent any jobs that can be run,
+            // If there aren't any jobs that can be run,
             // skip to when the nearest job is available
             t = shortest_delivery_jobs.jobs[0].delivery_time;
         }
@@ -307,7 +307,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sorty() {
+    fn test_sort() {
         let js = JobList {
             jobs: vec![
                 Job::new(0, 6, 17),  // 6
