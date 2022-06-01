@@ -1,9 +1,16 @@
+//! $ test^{if}_{latex} + works \lambda$
+//!
+//! test test test
+//!
+//!
+//!
+
 use crate::schrage::jobs::{Job, JobList};
 use std::vec;
 
 pub mod jobs;
 
-///
+/// $ test^{if}_{latex} + works $
 ///
 /// # Arguments
 ///
