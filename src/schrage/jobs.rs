@@ -1,4 +1,5 @@
 // pub mod jobs;
+use std::collections::HashMap;
 use std::{fmt, vec};
 
 #[derive(Copy, Clone, Debug)]
@@ -9,7 +10,6 @@ pub struct Job {
 }
 
 impl Job {
-    #[allow(dead_code)]
     pub fn new(delivery_time: u32, processing_time: u32, cooldown_time: u32) -> Job {
         Job {
             delivery_time,
@@ -57,27 +57,12 @@ impl fmt::Display for JobList {
 }
 
 impl JobList {
-    #[allow(dead_code)]
-    pub fn c_max(&self) -> u32 {
-        let mut end_times = vec![0; self.jobs.len()];
-        let mut s = 0;
-        let mut sums = vec![0; self.jobs.len()];
-
-        for (i, job) in self.jobs.iter().enumerate() {
-            if job.delivery_time > s {
-                s = job.delivery_time + job.processing_time;
-            } else {
-                s += job.processing_time;
-            }
-            end_times[i] = s;
-        }
-
-        for (i, job) in self.jobs.iter().enumerate() {
-            sums[i] = job.cooldown_time + end_times[i];
-        }
-        *sums.iter().max().unwrap()
+    /// Creates a new [`JobList`].
+    pub fn new(jobs: Vec<Job>) -> JobList {
+        JobList { jobs }
     }
 
+    /// Returns the Job List sorted by delivery time of this [`JobList`].
     #[allow(dead_code)]
     pub fn sorted_by_delivery_time(&self) -> Vec<Job> {
         let mut by_delivery_time = self.jobs.clone();
@@ -85,6 +70,7 @@ impl JobList {
         by_delivery_time
     }
 
+    /// Returns the Job List sorted by processing time of this [`JobList`].
     #[allow(dead_code)]
     pub fn sorted_by_processing_time(&self) -> Vec<Job> {
         let mut by_processing_time = self.jobs.clone();
@@ -92,6 +78,7 @@ impl JobList {
         by_processing_time
     }
 
+    /// Returns the Job List sorted by cooldown time of this [`JobList`].
     #[allow(dead_code)]
     pub fn sorted_by_cooldown_time(&self) -> Vec<Job> {
         let mut by_cooldown_time = self.jobs.clone();
@@ -114,6 +101,68 @@ impl PartialEq for JobList {
     }
 }
 
+pub struct SchrageJobTable {
+    pub job_list: JobList,
+}
+
+impl SchrageJobTable {
+    pub fn new(job_list: JobList) -> SchrageJobTable {
+        SchrageJobTable { job_list }
+    }
+
+    /// Returns the c max of this [`SchrageJobTable`].
+    ///
+    /// # Panics
+    ///
+    /// Panics if the job list is empty.
+    pub fn c_max(&self) -> u32 {
+        let mut end_times = vec![0; self.job_list.jobs.len()];
+        let mut s = 0;
+        let mut sums = vec![0; self.job_list.jobs.len()];
+
+        for (i, job) in self.job_list.jobs.iter().enumerate() {
+            if job.delivery_time > s {
+                s = job.delivery_time + job.processing_time;
+            } else {
+                s += job.processing_time;
+            }
+            end_times[i] = s;
+        }
+
+        for (i, job) in self.job_list.jobs.iter().enumerate() {
+            sums[i] = job.cooldown_time + end_times[i];
+        }
+        *sums.iter().max().unwrap()
+    }
+}
+
+pub struct PartTimeSchrageJobTable {
+    pub job_list: JobList,
+    pub time_table: HashMap<u32, u32>,
+}
+
+impl PartTimeSchrageJobTable {
+    pub fn c_max_wip(&self) -> u32 {
+        let mut end_times = vec![0; self.job_list.jobs.len()];
+        let mut s = 0;
+        let mut sums = vec![0; self.job_list.jobs.len()];
+
+        for (i, job) in self.job_list.jobs.iter().enumerate() {
+            if job.delivery_time > s {
+                s = job.delivery_time + job.processing_time;
+            } else {
+                s += job.processing_time;
+            }
+            end_times[i] = s;
+        }
+
+        for (i, job) in self.job_list.jobs.iter().enumerate() {
+            sums[i] = job.cooldown_time + end_times[i];
+        }
+        *sums.iter().max().unwrap()
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -121,7 +170,7 @@ mod tests {
 
     #[test]
     fn test_c_max_ex1() {
-        let js = JobList {
+        let js = SchrageJobTable::new(JobList {
             jobs: vec![
                 Job::new(10, 5, 7),  // 1
                 Job::new(13, 6, 26), // 2
@@ -131,14 +180,14 @@ mod tests {
                 Job::new(0, 6, 17),  // 6
                 Job::new(30, 2, 0),  // 7
             ],
-        };
+        });
         let result = js.c_max();
         assert_eq!(result, 58);
     }
 
     #[test]
     fn test_c_max_ex2() {
-        let js = JobList {
+        let js = SchrageJobTable::new(JobList {
             jobs: vec![
                 Job::new(0, 6, 17),  // 6
                 Job::new(10, 5, 7),  // 1
@@ -148,14 +197,14 @@ mod tests {
                 Job::new(30, 3, 8),  // 5
                 Job::new(30, 2, 0),  // 7
             ],
-        };
+        });
         let result = js.c_max();
         assert_eq!(result, 53);
     }
 
     #[test]
     fn test_c_max_ex3() {
-        let js = JobList {
+        let js = SchrageJobTable::new(JobList {
             jobs: vec![
                 Job::new(0, 6, 17),  // 6
                 Job::new(11, 7, 24), // 3
@@ -165,14 +214,14 @@ mod tests {
                 Job::new(30, 3, 8),  // 5
                 Job::new(30, 2, 0),  // 7
             ],
-        };
+        });
         let result = js.c_max();
         assert_eq!(result, 50);
     }
 
     #[test]
     fn test_c_max_ex4() {
-        let js = JobList {
+        let js = SchrageJobTable::new(JobList {
             jobs: vec![
                 Job::new(2, 20, 88),   // 8
                 Job::new(5, 14, 125),  // 4
@@ -185,14 +234,14 @@ mod tests {
                 Job::new(112, 22, 79), // 3
                 Job::new(90, 2, 13),   // 7
             ],
-        };
+        });
         let result = js.c_max();
         assert_eq!(result, 213);
     }
 
     #[test]
     fn test_c_max_ex5() {
-        let js = JobList {
+        let js = SchrageJobTable::new(JobList {
             jobs: vec![
                 Job::new(15, 86, 700),  // 5
                 Job::new(51, 52, 403),  // 7
@@ -215,7 +264,7 @@ mod tests {
                 Job::new(57, 21, 76),   // 12
                 Job::new(233, 68, 23),  // 8
             ],
-        };
+        });
         let result = js.c_max();
         assert_eq!(result, 1399);
     }
