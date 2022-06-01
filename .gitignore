@@ -26,6 +26,7 @@ Cargo.lock
 
 # Visual Studio Code
 .vscode/
+workspace.code-workspace
 
 # macOS
 .DS_Store
