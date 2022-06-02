@@ -1,7 +1,7 @@
-use crate::schrage::jobs::{Job, JobList, SchrageJobTable};
-use std::{cmp, vec};
+//! Implements Schrage and Part Time Schrage algorithms.
 
-pub mod jobs;
+use crate::jobs::{Job, JobList, SchrageJobTable};
+use std::{cmp, vec};
 
 /// Schrage algorithm.
 ///
@@ -14,9 +14,7 @@ pub mod jobs;
 /// # Examples
 ///
 /// ```rust
-/// use proc_opt::schrage::jobs::JobList;
-/// use proc_opt::schrage::jobs::Job;
-/// use proc_opt::schrage::jobs::SchrageJobTable;
+/// use proc_opt::jobs::{JobList, Job, SchrageJobTable};
 /// use proc_opt::schrage::schrage;
 /// let expected_result = SchrageJobTable::new(JobList {
 ///     jobs: vec![
@@ -105,9 +103,7 @@ pub fn schrage(jobs: &JobList) -> SchrageJobTable {
 /// # Example
 ///
 /// ```
-/// use proc_opt::schrage::jobs::JobList;
-/// use proc_opt::schrage::jobs::Job;
-/// use proc_opt::schrage::jobs::SchrageJobTable;
+/// use proc_opt::jobs::{JobList, Job, SchrageJobTable};
 /// use proc_opt::schrage::part_time_schrage;
 /// let js = JobList::new(vec![
 ///     Job::new(0, 27, 78),
@@ -171,7 +167,7 @@ pub fn part_time_schrage(jobs: &JobList) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::schrage::jobs::{Job, JobList};
+    use crate::jobs::{Job, JobList};
 
     use super::*;
 
