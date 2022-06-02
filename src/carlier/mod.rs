@@ -1,6 +1,6 @@
-use crate::jobs::{Job, JobList};
-use crate::schrage::{part_time_schrage, schrage};
+use crate::jobs::{JobList};
 
-pub fn carlier(jobs: &JobList) {
+
+pub fn carlier(_jobs: &JobList) {
     todo!();
 }
