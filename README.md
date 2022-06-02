@@ -55,6 +55,17 @@ Branching strategy:
 * Tox like task definition using `cargo-make`
 * For smootinh the release process use `cargo-release`
 
+
+## Useful tips
+
+* For running test in a more visually appealing way use the
+    `cargo-nextest` crate.
+* For drawing the module tree of your crate use `cargo-modules` crate
+* For manipulating the Cargo.toml in cmd use `cargo-edit` crate
+* For cheking if your deps have security vulnerabilities use `cargo-audit` crate
+* Tox like task definition using `cargo-make`
+* For smootinh the release process use `cargo-release`
+
 ## Credits
 
 ---
