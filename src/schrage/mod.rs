@@ -1,4 +1,25 @@
 //! Implements Schrage and Part Time Schrage algorithms.
+//!
+//! The Schrage algorithm is a meta-heuristic algorithm that tries to optimize
+//! scheduling of different processes. In the xxx the problem can be written as:
+//! $$ 1|r_{j}, q_{j}|C_{max} $$
+//!
+//! <div>
+//! <center>
+//! <img src="../../../../img/job.png"/>
+//! </center>
+//! </div>
+//! <hr/>
+//!
+//!
+//!
+//!
+//!
+//!
+//!
+//!
+//!
+//!
 
 use crate::jobs::{Job, JobList, SchrageJobTable};
 use std::{cmp, vec};
