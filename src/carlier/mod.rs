@@ -18,17 +18,22 @@ use std::cmp;
 pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
     let result: SchrageJobTable = schrage(jobs);
     let mut pi: JobList = result.job_list.clone();
-    let u: u32 = result.c_max();
+    let c_max_from_schrage: u32 = result.c_max();
 
-    if u < *upper_bound {
-        *upper_bound = u;
+    if c_max_from_schrage < *upper_bound {
+        *upper_bound = c_max_from_schrage;
     }
 
-    let b: u32 = find_b(pi.clone(), u);
-    let a: u32 = find_a(pi.clone(), u, b);
-    let c: i32 = find_c(pi.clone(), b, a);
+    let critical_path_end_index: u32 = find_critical_path_end(pi.clone(), c_max_from_schrage);
+    let critical_path_start_index: u32 =
+        find_critical_path_start(pi.clone(), c_max_from_schrage, critical_path_end_index);
+    let critical_job_index: i32 = find_critical_job(
+        pi.clone(),
+        critical_path_end_index,
+        critical_path_start_index,
+    );
 
-    if c == -1 {
+    if critical_job_index == -1 {
         return;
     }
 
@@ -36,7 +41,7 @@ pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
     let mut pj: u32 = 0;
     let mut qj: u32 = u32::MAX;
 
-    for i in (c as usize + 1)..=b as usize {
+    for i in (critical_job_index as usize + 1)..=critical_path_end_index as usize {
         if pi.jobs[i as usize].delivery_time < rj {
             rj = pi.jobs[i as usize].delivery_time;
         }
@@ -48,27 +53,27 @@ pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
         pj += pi.jobs[i as usize].processing_time;
     }
 
-    let c_job_delivery: u32 = pi.jobs[c as usize].delivery_time;
-    pi.jobs[c as usize].delivery_time = cmp::max(c_job_delivery, rj + pj);
+    let c_job_delivery: u32 = pi.jobs[critical_job_index as usize].delivery_time;
+    pi.jobs[critical_job_index as usize].delivery_time = cmp::max(c_job_delivery, rj + pj);
 
     let mut lower_bound: u32 = part_time_schrage(jobs);
     if lower_bound < *upper_bound {
         carlier(&mut pi, upper_bound);
     }
 
-    pi.jobs[c as usize].delivery_time = c_job_delivery;
+    pi.jobs[critical_job_index as usize].delivery_time = c_job_delivery;
 
-    let c_job_cooldown: u32 = pi.jobs[c as usize].cooldown_time;
-    pi.jobs[c as usize].cooldown_time = cmp::max(c_job_cooldown, pj + qj);
+    let c_job_cooldown: u32 = pi.jobs[critical_job_index as usize].cooldown_time;
+    pi.jobs[critical_job_index as usize].cooldown_time = cmp::max(c_job_cooldown, pj + qj);
     lower_bound = part_time_schrage(jobs);
 
     if lower_bound < *upper_bound {
         carlier(&mut pi, upper_bound)
     }
-    pi.jobs[c as usize].cooldown_time = c_job_cooldown;
+    pi.jobs[critical_job_index as usize].cooldown_time = c_job_cooldown;
 }
 
-fn find_b(pi: JobList, c_max: u32) -> u32 {
+fn find_critical_path_end(pi: JobList, c_max: u32) -> u32 {
     let mut b_value: i32 = -1;
     let mut t: u32 = pi.jobs[0].delivery_time;
 
@@ -83,7 +88,7 @@ fn find_b(pi: JobList, c_max: u32) -> u32 {
     b_value as u32
 }
 
-fn find_a(pi: JobList, c_max: u32, b_value: u32) -> u32 {
+fn find_critical_path_start(pi: JobList, c_max: u32, b_value: u32) -> u32 {
     let mut sum: u32;
     let mut a_value: i32 = -1;
     let mut t: u32 = pi.jobs[0].delivery_time;
@@ -108,7 +113,7 @@ fn find_a(pi: JobList, c_max: u32, b_value: u32) -> u32 {
     a_value as u32
 }
 
-fn find_c(pi: JobList, b_value: u32, a_value: u32) -> i32 {
+fn find_critical_job(pi: JobList, b_value: u32, a_value: u32) -> i32 {
     let mut c_value: i32 = -1;
 
     for i in a_value..=b_value {

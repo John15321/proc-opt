@@ -9,6 +9,10 @@
 WORK IN PROGRESS
 Process optimization library.
 
+# On crates.io 📦
+
+<https://crates.io/crates/proc-opt>
+
 ## Features
 
 ---
@@ -18,7 +22,6 @@ Algorithms (TODO):
 * Schrage
 * Carlier
 * Simulated Annealing
-
 
 ## Development and branching strategy
 
@@ -45,6 +48,14 @@ Branching strategy:
 * For smootinh the release process use `cargo-release`
 
 ## Credits
+
+---
+
+### Authors
+
+* Jan Bronicki <janbronicki@gmail.com>
+* Borys Staszczak <staszczak.brys@gmail.com>
+* Patryk Marciniak <patryknmarciniak@gmail.com>
 
 ---
 
