@@ -13,10 +13,10 @@
 
 use crate::jobs::{Job, JobList, SchrageJobTable};
 use crate::schrage::{part_time_schrage, schrage};
-use std::{cmp, vec};
+use std::cmp;
 
 pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
-    let result: SchrageJobTable = schrage(&jobs);
+    let result: SchrageJobTable = schrage(jobs);
     let mut pi: JobList = result.job_list.clone();
     let u: u32 = result.c_max();
 
@@ -51,7 +51,7 @@ pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
     let c_job_delivery: u32 = pi.jobs[c as usize].delivery_time;
     pi.jobs[c as usize].delivery_time = cmp::max(c_job_delivery, rj + pj);
 
-    let mut lower_bound: u32 = part_time_schrage(&jobs);
+    let mut lower_bound: u32 = part_time_schrage(jobs);
     if lower_bound < *upper_bound {
         carlier(&mut pi, upper_bound);
     }
@@ -60,7 +60,7 @@ pub fn carlier(jobs: &mut JobList, upper_bound: &mut u32) {
 
     let c_job_cooldown: u32 = pi.jobs[c as usize].cooldown_time;
     pi.jobs[c as usize].cooldown_time = cmp::max(c_job_cooldown, pj + qj);
-    lower_bound = part_time_schrage(&jobs);
+    lower_bound = part_time_schrage(jobs);
 
     if lower_bound < *upper_bound {
         carlier(&mut pi, upper_bound)
@@ -73,7 +73,7 @@ fn find_b(pi: JobList, c_max: u32) -> u32 {
     let mut t: u32 = pi.jobs[0].delivery_time;
 
     for i in 0..pi.jobs.len() {
-        let current_job: Job = pi.jobs[i].clone();
+        let current_job: Job = pi.jobs[i];
         t = cmp::max(t, current_job.delivery_time) + current_job.processing_time;
 
         if c_max == (current_job.cooldown_time + t) {
@@ -89,7 +89,7 @@ fn find_a(pi: JobList, c_max: u32, b_value: u32) -> u32 {
     let mut t: u32 = pi.jobs[0].delivery_time;
 
     for i in 0..pi.jobs.len() {
-        let current_job: Job = pi.jobs[i].clone();
+        let current_job: Job = pi.jobs[i];
         t = cmp::max(t, current_job.delivery_time) + current_job.processing_time;
 
         if a_value == -1 {
