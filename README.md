@@ -7,45 +7,18 @@
 # Process Optimization
 
 WORK IN PROGRESS
-Process optimization library.
-
-# On crates.io 📦
-
-<https://crates.io/crates/proc-opt>
+Process/Job scheduling optimization library.
 
 ## Features
 
 ---
 
-Algorithms (TODO):
+Algorithms:
 
 * Schrage
-* Carlier
-* Simulated Annealing
-
-## Development and branching strategy
-
----
-
-Specfic branch names:
-
-* Main: "`main`"
-* Develop: "`branch_develop`"
-* Feature: "`ISSUENUMBER-short-lowercase-description`" e.g. "`6-make-better-readme`"
-
-Branching strategy:
-
-<div style="text-align: center;"><img src="https://wac-cdn.atlassian.com/dam/jcr:34c86360-8dea-4be4-92f7-6597d4d5bfae/02%20Feature%20branches.svg?cdnVersion=365"></div>
-
-## Useful tips
-
-* For running test in a more visually appealing way use the
-  `cargo-nextest` crate.
-* For drawing the module tree of your crate use `cargo-modules` crate
-* For manipulating the Cargo.toml in cmd use `cargo-edit` crate
-* For cheking if your deps have security vulnerabilities use `cargo-audit` crate
-* Tox like task definition using `cargo-make`
-* For smootinh the release process use `cargo-release`
+* Part Time Schrage (TBD)
+* Carlier (TBD)
+* NEH (TBD)
 
 ## Credits
 

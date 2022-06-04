@@ -1,12 +1,13 @@
 [package]
 edition = "2021"
 name = "proc-opt"
-version = "0.1.1"
+version = "0.1.2"
 license = "MIT"
-description = "WIP: Process optimization library."
-keywords = ["schrage", "carlier", "rpq", "optimization"]
+description = "WIP: PProcess/Job scheduling optimization library.."
+keywords = ["schrage", "carlier", "rpq", "optimization", "scheduling"]
 categories = ["algorithms"]
 readme = "README.md"
+repository = "https://github.com/John15321/proc-opt"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
