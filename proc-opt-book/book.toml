@@ -1,0 +1,6 @@
+[book]
+authors = ["Jan Bronicki"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Process Optimization Library Guide Book"
