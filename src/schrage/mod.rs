@@ -1,7 +1,43 @@
-use crate::schrage::jobs::{Job, JobList, SchrageJobTable};
-use std::{cmp, vec};
+//! Implements Schrage and Part Time Schrage algorithms.
+//!
+//! The Schrage algorithm is a meta-heuristic algorithm that tries to optimize
+//! scheduling of different processes. Using the Graham's notation the problem
+//! can be written as:
+//! $$ 1|r_{j}, q_{j}|C_{max} $$
+//!
+//! It tried to optimize a set of jobs using the greedy-algorithm method by
+//! iterating over the jobs and time and first choosing jobs that are available at the moment given their readiness time (`r`) and choosing the one with the highest value of cooldown time (`q`).
+//!
+//! <div align="center">
+//!
+//! |$j$  |1    |2    |3    |4    |5    |6    |7    |
+//! |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+//! |$r_j$|10   |13   |11   |20   |30   |0    |30   |
+//! |$p_j$|5    |6    |7    |4    |3    |6    |2    |
+//! |$q_j$|7    |26   |24   |21   |8    |17   |0    |
+//!
+//! </div>
+//!
+//! Natural arrangement of jobs:
+//!
+#![doc=include_str!("../../img/schrage_natural.svg")]
+//!
+//! Schrage sub-optimized arrangement gives the value of $53$ for the $C_{max}$ value:
+//!
+#![doc=include_str!("../../img/Schrage.svg")]
+//!
+//! Compared to the $50$ which is the optimal solution to this particular set of jobs:
+//!
+#![doc=include_str!("../../img/optimal.svg")]
+//!
+//!
+//!
+//!
+//!
+//!
 
-pub mod jobs;
+use crate::jobs::{Job, JobList, SchrageJobTable};
+use std::{cmp, vec};
 
 /// Schrage algorithm.
 ///
@@ -10,13 +46,12 @@ pub mod jobs;
 /// * `jobs`: A vector of jobs.
 ///
 /// returns: JobList
+/// Returns a JobList that is sorted in the sub-optimized arrangement.
 ///
 /// # Examples
 ///
 /// ```rust
-/// use proc_opt::schrage::jobs::JobList;
-/// use proc_opt::schrage::jobs::Job;
-/// use proc_opt::schrage::jobs::SchrageJobTable;
+/// use proc_opt::jobs::{JobList, Job, SchrageJobTable};
 /// use proc_opt::schrage::schrage;
 /// let expected_result = SchrageJobTable::new(JobList {
 ///     jobs: vec![
@@ -105,9 +140,7 @@ pub fn schrage(jobs: &JobList) -> SchrageJobTable {
 /// # Example
 ///
 /// ```
-/// use proc_opt::schrage::jobs::JobList;
-/// use proc_opt::schrage::jobs::Job;
-/// use proc_opt::schrage::jobs::SchrageJobTable;
+/// use proc_opt::jobs::{JobList, Job, SchrageJobTable};
 /// use proc_opt::schrage::part_time_schrage;
 /// let js = JobList::new(vec![
 ///     Job::new(0, 27, 78),
@@ -171,7 +204,7 @@ pub fn part_time_schrage(jobs: &JobList) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::schrage::jobs::{Job, JobList};
+    use crate::jobs::{Job, JobList};
 
     use super::*;
 
